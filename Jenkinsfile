@@ -7,7 +7,7 @@ node ('master') {
 			
 			try {
      			notifyBuild('STARTED')
-     			sh "${mvnHome}/bin/mvn clean _P dev test"
+     			sh "${mvnHome}/bin/mvn clean -P dev test"
      			
      			
  		   	} catch (e) {
