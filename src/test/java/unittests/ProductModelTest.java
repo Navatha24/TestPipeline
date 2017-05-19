@@ -26,7 +26,7 @@ public class ProductModelTest {
 		assertThat(product.getVersion(), is(equalTo(100)));
 		assertThat(product.getId(), is(equalTo(1)));
 		assertThat(product.getProductId(), is(equalTo("P1")));
-		assertThat(product.getName(), is(equalTo("Coffees")));
+		assertThat(product.getName(), is(equalTo("Coffee")));
 		assertThat(product.getPrice(), is(equalTo(new BigDecimal("1.999999"))));
 	}
 }
