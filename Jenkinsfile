@@ -2,7 +2,7 @@ node ('master') {
 
 		def mvnHome = tool 'mvn'
 		
-		stage('Integration Tests'){
+		stage('Unit Tests'){
 			checkout scm	
 			
 			try {
@@ -15,14 +15,43 @@ node ('master') {
 	     		throw e
    		    } finally {
      			notifyBuild(currentBuild.result)
-     			//runSonarAnalysis()
      			
    		    }
    
 		 }
 
-		stage('Acceptance Test Report'){
-				 
+		stage('Integration Test'){
+		
+			try {
+     			notifyBuild('STARTED')
+     			sh "${mvnHome}/bin/mvn clean -P integration-test verify"
+     			
+     			
+ 		   	} catch (e) {
+     			currentBuild.result = "FAILED"
+	     		throw e
+   		    } finally {
+     			notifyBuild(currentBuild.result)
+     			
+   		    }
+   
+		}
+		
+		stage('Deploy'){
+		
+			try {
+     			notifyBuild('STARTED')
+     			sh "${mvnHome}/bin/mvn deploy:deploy-file -Dfile=../springboot-crud-demo-master/target/spring-boot-web-0.0.3-SNAPSHOT.jar -Durl=http://localhost:8081/artifactory/libs-snapshot-local -DgroupId=com.enstat -DartifactId=spring-boot-web -Dversion=0.0.3-SNAPSHOT -e"
+     			
+     			
+ 		   	} catch (e) {
+     			currentBuild.result = "FAILED"
+	     		throw e
+   		    } finally {
+     			notifyBuild(currentBuild.result)
+     			
+   		    }
+   
 		}
 	
 }
