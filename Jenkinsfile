@@ -8,9 +8,7 @@ node ('master') {
 			try {
      			notifyBuild('STARTED')
      			sh "${mvnHome}/bin/mvn clean -P dev test"
-     			
-     			
-     			
+ 
  		   	} catch (e) {
      			currentBuild.result = "FAILED"
 	     		throw e
@@ -33,7 +31,7 @@ node ('master') {
 	     		throw e
    		    } finally {
      			notifyBuild(currentBuild.result)
-     			
+     			step([$class: 'JUnitResultArchiver', testResults: '**/target/failsafe-reports/TEST-*.xml'])
    		    }
    
 		}
