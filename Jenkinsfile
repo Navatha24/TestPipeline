@@ -1,14 +1,18 @@
+#!/usr/bin/env groovy
 node ('master') { 
+		
 
 		def mvnHome = tool 'mvn'
+	
+		stage('SCM Checkout'){
+				checkout scm
+		}
 		
 		stage('Unit Tests'){
-			checkout scm	
-			
+				
 			try {
      			notifyBuild('STARTED')
      			sh "${mvnHome}/bin/mvn clean -P dev test"
- 
  		   	} catch (e) {
      			currentBuild.result = "FAILED"
 	     		throw e
@@ -45,8 +49,7 @@ node ('master') {
      			notifyBuild('STARTED')
      			sh "${mvnHome}/bin/mvn deploy:deploy-file -Dfile=../springboot-crud-demo-master/target/spring-boot-web-0.0.3-SNAPSHOT.jar -Durl=http://localhost:8081/artifactory/libs-snapshot-local -DgroupId=com.enstat -DartifactId=spring-boot-web -Dversion=0.0.3-SNAPSHOT -e"
      			
-     			
- 		   	} catch (e) {
+  		   	} catch (e) {
      			currentBuild.result = "FAILED"
 	     		throw e
    		    } finally {
@@ -57,6 +60,20 @@ node ('master') {
 		}
 	
 }
+
+catch (err) {
+
+        currentBuild.result = "FAILURE"
+
+            mail body: "project build error is here: ${env.BUILD_URL}" ,
+            from: 'xxxx@yyyy.com',
+            replyTo: 'yyyy@yyyy.com',
+            subject: 'project build failed',
+            to: 'zzzz@yyyyy.com'
+
+        throw err
+    }
+
 
 void archiveTestResults() {
     step([$class: 'JUnitResultArchiver', testResults: '**/target/**/index.html', allowEmptyResults: true])
