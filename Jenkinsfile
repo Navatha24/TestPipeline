@@ -23,7 +23,7 @@ node ('master') {
 		
 			try {
      			notifyBuild('STARTED')
-     			sh "${mvnHome}/bin/mvn clean -P integration-test verify"
+     			
      			
      			
  		   	} catch (e) {
