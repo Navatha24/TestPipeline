@@ -14,6 +14,7 @@ node ('master') {
 	     		throw e
    		    } finally {
      			notifyBuild(currentBuild.result)
+     			step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
      			step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
    		    }
    
@@ -23,7 +24,7 @@ node ('master') {
 		
 			try {
      			notifyBuild('STARTED')
-     			
+     			sh "${mvnHome}/bin/mvn clean -P integration-test verify"
      			
      			
  		   	} catch (e) {
@@ -31,6 +32,8 @@ node ('master') {
 	     		throw e
    		    } finally {
      			notifyBuild(currentBuild.result)
+     			step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
+     			step([$class: 'JUnitResultArchiver', testResults: '**/target/failsafe-reports/TEST-*.xml'])
      			
    		    }
    
