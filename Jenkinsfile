@@ -10,12 +10,13 @@ node ('master') {
      			sh "${mvnHome}/bin/mvn clean -P dev test"
      			
      			
+     			
  		   	} catch (e) {
      			currentBuild.result = "FAILED"
 	     		throw e
    		    } finally {
      			notifyBuild(currentBuild.result)
-     			
+     			step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
    		    }
    
 		 }
