@@ -31,7 +31,7 @@ node ('master') {
 	     		throw e
    		    } finally {
      			notifyBuild(currentBuild.result)
-     			step([$class: 'JUnitResultArchiver', testResults: '**/target/failsafe-reports/TEST-*.xml'])
+     			
    		    }
    
 		}
