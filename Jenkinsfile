@@ -10,9 +10,7 @@ def mvnHome = tool 'mvn'
 	
 		stage('Unit Tests'){
 			sh '${mvnHome}/bin/mvn clean -P dev test'
-			var=$(pwd)
-			echo "The current working directory $var."
-			
+			junit allowEmptyResults: true, testResults: '/var/jenkins_home/workspace/Test Pipeline/target/surefire-reports/TEST-*.xml'
 		}
 		
 		stage('Integration Tests'){
