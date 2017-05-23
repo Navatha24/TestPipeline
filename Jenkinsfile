@@ -18,15 +18,7 @@ node ('master') {
    		    } finally {
      			notifyBuild(currentBuild.result)
      			step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', fingerprint: true])
-     			step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
-     			 publishHTML (target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: false,
-                    keepAll: true,
-                    reportDir: 'coverage',
-                    reportFiles: 'index.html',
-                    reportName: "Junit Report"
-            ])
+     			junit '**/target/surefire-reports/TEST-*.xml'
    		    }
    
 		 }
