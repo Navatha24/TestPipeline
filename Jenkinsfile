@@ -10,7 +10,7 @@ def mvnHome = tool 'mvn'
 	
 		stage('Unit Tests'){
 			sh '${mvnHome}/bin/mvn clean -P dev test'
-			junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml'
+			sh junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml'
 		}
 		
 		stage('Integration Tests'){
