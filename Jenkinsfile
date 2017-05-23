@@ -9,13 +9,14 @@ def mvnHome = tool 'mvn'
 		}
 	
 		stage('Unit Tests'){
-			sh '${mvnHome}/bin/mvn clean -P dev test || true'
-			def files = findFiles(glob: '**/TEST-*.xml')
-        	echo """${files[0].name}  ${files[0].path}"""
+			sh '${mvnHome}/bin/mvn clean -P dev test'
+			var=$(pwd)
+			echo "The current working directory $var."
+			
 		}
 		
 		stage('Integration Tests'){
-			sh '${mvnHome}/bin/mvn clean -P integration-test verify || true'
+			sh '${mvnHome}/bin/mvn clean -P integration-test verify'
 		}
 		
 		stage('Deploy'){
