@@ -1,6 +1,6 @@
 node ('master') { 
 
-	def mvnHome = tool 'mvn'
+	
 		
 	try{
 		
@@ -10,8 +10,8 @@ node ('master') {
 		}
 	
 		stage('Unit Tests'){
-			
-			sh './mvnw clean -P dev test'
+			def mvnHome = tool 'mvn'
+			sh '${mvnHome}/bin/mvn clean -P dev test'
 			
 		}
 		
