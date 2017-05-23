@@ -11,7 +11,7 @@ node ('master') {
 	
 		stage('Unit Tests'){
 			
-			sh 'mvn clean -P dev test'
+			sh '${mvnHome}/bin/mvn clean -P dev test'
 			
 		}
 		
