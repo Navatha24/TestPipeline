@@ -1,8 +1,10 @@
 node ('master') { 
 
-def mvnHome = tool 'mvn'
+
 		
 	try{
+		def mvnHome = tool 'mvn'
+		
 		stage('SCM Checkout'){
 			checkout scm
 			notifyBuild('STARTED')
