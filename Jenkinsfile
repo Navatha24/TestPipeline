@@ -10,7 +10,8 @@ def mvnHome = tool 'mvn'
 	
 		stage('Unit Tests'){
 			sh '${mvnHome}/bin/mvn clean -P dev test || true'
-			junit '**/target/surefire-reports/TEST-*.xml'
+			def files = findFiles(glob: '**/TEST-*.xml')
+        	echo """${files[0].name}  ${files[0].path}"""
 		}
 		
 		stage('Integration Tests'){
