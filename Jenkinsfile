@@ -21,7 +21,7 @@ def mvnHome = tool 'mvn'
 		}		
 	
 	}catch (e) {
-		currentBuild.result = "FAILURE"
+		currentBuild.result = "FAILURE:"+e
 		throw e
 	}finally{
 		notifyBuild(currentBuild.result)
@@ -31,8 +31,8 @@ def mvnHome = tool 'mvn'
 def notifyBuild(String buildStatus) {
 
 	buildStatus =  buildStatus ?: 'SUCCESSFUL'
-	def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-	def summary = "${subject} (${env.BUILD_URL})"
+	def subject = "${buildStatus}: Job: '${env.JOB_NAME} Build: [${env.BUILD_NUMBER}]'"
+	def summary = "${subject}"
 					
 	if (buildStatus == 'STARTED') {
 		color = 'YELLOW'
