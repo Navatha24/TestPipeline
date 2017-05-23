@@ -1,9 +1,8 @@
 node ('master') { 
 
-
+	def mvnHome = tool 'mvn'
 		
 	try{
-		
 		
 		stage('SCM Checkout'){
 			checkout scm
@@ -11,8 +10,8 @@ node ('master') {
 		}
 	
 		stage('Unit Tests'){
-			def mvnHome = tool 'mvn'
-			sh '${mvnHome}/bin/mvn clean -P dev test'
+			
+			sh 'mvn clean -P dev test'
 			
 		}
 		
